@@ -1,19 +1,15 @@
-# Build stage
+# Build
 FROM maven:3.9.9-eclipse-temurin-21 AS build
 WORKDIR /app
-
-# Cache deps first for faster rebuilds
 COPY pom.xml .
 RUN mvn -B -q -DskipTests dependency:go-offline
-
-# Now add sources and build
 COPY src ./src
 RUN mvn -B -DskipTests clean package
 
-# Runtime stage
+# Runtime
 FROM eclipse-temurin:21-jre
 ENV JAVA_OPTS=""
 WORKDIR /app
 COPY --from=build /app/target/*.jar app.jar
-EXPOSE ${PORT}
+EXPOSE 8080  # optional
 ENTRYPOINT ["sh","-c","java $JAVA_OPTS -Dserver.port=${PORT:-8080} -jar app.jar"]
