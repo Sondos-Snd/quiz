@@ -1,4 +1,4 @@
-package com.interview.prep.api.dto;
+package com.interview.prep.dto;
 
 import jakarta.validation.constraints.*;
 import lombok.*;

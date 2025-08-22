@@ -1,7 +1,7 @@
 package com.interview.prep.controller;
 
-import com.interview.prep.service.CVService;
 import com.interview.prep.dto.CVUploadResponse;
+import com.interview.prep.service.CVService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;

@@ -5,7 +5,6 @@ import com.interview.prep.service.QuestionService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.Optional;
@@ -18,7 +17,6 @@ public class QuestionAdminController {
     private QuestionService questionService;
 
     @PostMapping("/add")
-    @PreAuthorize("hasRole('ADMIN')")
     public ResponseEntity<?> addQuestion(@RequestBody Question question) {
         Optional<Question> existing = questionService.findByTopicAndTextAndAnswer(
                 question.getTopic(),

@@ -1,6 +1,5 @@
-package com.interview.prep.api.dto;
+package com.interview.prep.dto;
 
-import com.interview.prep.domain.Enums.Sender;
 import jakarta.validation.constraints.*;
 import lombok.*;
 import java.time.OffsetDateTime;
@@ -11,7 +10,6 @@ public class MessageDTO {
 
     @NotNull private Long consultationId;
 
-    @NotNull private Sender sender;
 
     @NotBlank private String body;
 

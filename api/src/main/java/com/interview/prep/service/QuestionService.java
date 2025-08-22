@@ -12,38 +12,38 @@ import java.util.Optional;
 @Service
 public class QuestionService {
 
-    private final QuestionRepository questionRepository;
+  private final QuestionRepository questionRepository;
 
-    public QuestionService(QuestionRepository questionRepository) {
-        this.questionRepository = questionRepository;
+  public QuestionService(QuestionRepository questionRepository) {
+    this.questionRepository = questionRepository;
+  }
+
+  public List<Question> getQuestionsByTopic(String topic) {
+    return questionRepository.findByTopic(topic);
+  }
+
+  public Question getQuestionById(String id) {
+    Optional<Question> optionalQuestion = questionRepository.findById(id);
+    return optionalQuestion.orElse(null);
+  }
+  public Optional<Question> findByTopicAndTextAndAnswer(String topic, String text, String answer) {
+    return questionRepository.findByTopicAndQuestionTextAndCorrectAnswer(topic, text, answer);
+  }
+
+  public Question addQuestion(Question question) {
+    Optional<Question> existingQuestion = questionRepository
+      .findByTopicAndQuestionTextAndCorrectAnswer(question.getTopic(),  question.getQuestionText(),question.getCorrectAnswer());
+
+    if (existingQuestion.isPresent()) {
+      return existingQuestion.get(); // أو: throw new IllegalStateException("Question already exists");
     }
 
-    public List<Question> getQuestionsByTopic(String topic) {
-        return questionRepository.findByTopic(topic);
-    }
+    return questionRepository.save(question);
+  }
 
-    public Question getQuestionById(String id) {
-        Optional<Question> optionalQuestion = questionRepository.findById(id);
-        return optionalQuestion.orElse(null);
-    }
-    public Optional<Question> findByTopicAndTextAndAnswer(String topic, String text, String answer) {
-        return questionRepository.findByTopicAndQuestionTextAndCorrectAnswer(topic, text, answer);
-    }
+  public List<Question> getAllQuestions() {
+    return questionRepository.findAll();
 
-    public Question addQuestion(Question question) {
-        Optional<Question> existingQuestion = questionRepository
-                .findByTopicAndQuestionTextAndCorrectAnswer(question.getTopic(),  question.getQuestionText(),question.getCorrectAnswer());
-
-        if (existingQuestion.isPresent()) {
-            return existingQuestion.get(); // أو: throw new IllegalStateException("Question already exists");
-        }
-
-        return questionRepository.save(question);
-    }
-
-    public List<Question> getAllQuestions() {
-        return questionRepository.findAll();
-
-    }
+  }
 
 }

@@ -1,6 +1,5 @@
-package com.interview.prep.api.dto;
+package com.interview.prep.dto;
 
-import com.interview.prep.domain.Enums.Channel;
 import jakarta.validation.constraints.*;
 import lombok.*;
 import java.time.OffsetDateTime;
@@ -16,7 +15,6 @@ public class ConsultationDTO {
     @NotBlank private String intent;
 
     private OffsetDateTime scheduledAt;
-    private Channel channel;
 
     private Object meta;            // jsonb
     private OffsetDateTime createdAt;
