@@ -1,0 +1,3 @@
+<app-quiz-card [question]="currentQuestion" [questionIndex]="currentQuestionIndex" [totalQuestions]="questions.length"
+    [result]="result" [userAnswer]="userAnswer" (submitClicked)="onSubmitAnswer()" (nextClicked)="onNextQuestion()"
+    (answerChanged)="onUserAnswerChange($event)" (resultClicked)="onViewResult()" />

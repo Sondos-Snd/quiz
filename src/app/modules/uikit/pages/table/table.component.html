@@ -1,0 +1,19 @@
+<div class="mb-6 flex justify-between items-center">
+  <div>
+    <h1 class="text-2xl font-semibold text-foreground">Admin Panel</h1>
+    <p class="text-muted-foreground mt-1 text-sm">
+      Manage your quiz questions and users here.
+    </p>
+  </div>
+  <div class="space-x-4">
+    <button class="bg-muted text-muted-foreground hover:text-foreground rounded-md px-4 py-2.5 text-xs font-semibold"
+      type="button" (click)="fileInput.click()">
+      Import CSV
+    </button>
+    <button class="bg-primary text-primary-foreground rounded-md px-4 py-2.5 text-xs font-semibold" type="button">
+      Add Question
+    </button>
+    <input #fileInput type="file" accept=".pdf,.doc,.docx,.txt,.xls,.xlsx,.csv" style="display:none"
+      (change)="onFileSelected($event)" />
+  </div>
+</div>

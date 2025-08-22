@@ -1,0 +1,36 @@
+<div *ngIf="question" class="bg-background flex min-h-[420px] flex-col rounded-lg p-8 sm:flex-row">
+    <div class="flex-1 flex items-center justify-center">
+        <div class="text-center w-full">
+            <small class="text-muted-foreground font-semibold">Question {{ questionIndex + 1 }} of {{ totalQuestions
+                }}</small>
+            <h2 class="text-foreground text-2xl font-semibold mt-2">{{ question.questionText }}</h2>
+
+            <textarea [(ngModel)]="userAnswer" (input)="onInputChange($event)" (keydown.enter)="handleEnter($event)"
+                placeholder="Type your answer..."
+                class="mt-4 w-full rounded-md border p-3 text-sm focus:outline-none focus:ring-2 focus:ring-primary"></textarea>
+
+
+            <div class="mt-4 flex gap-4 justify-center">
+                <button (click)="onSubmit()"
+                    class="hover:bg-primary-600 bg-primary text-primary-foreground rounded-md px-4 py-2 text-xs font-semibold">
+                    Submit
+                </button>
+
+                <button *ngIf="result" (click)="onNext()"
+                    class="hover:bg-blue-600 bg-blue-500 text-white rounded-md px-4 py-2 text-xs font-semibold">
+                    Next Question
+                </button>
+            </div>
+
+            <div *ngIf="result" class="mt-6 text-left text-sm p-5 rounded-lg shadow-md bg-white border border-gray-200">
+                <p class="mb-2"><strong>Recommended Answer:</strong> {{ result.recommendedAnswer }}</p>
+                <!-- <p><strong>Future Skills:</strong> {{ result.futureSkills }}</p> -->
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Optional: message if no question -->
+<div *ngIf="!question" class="text-center p-8 text-gray-500">
+    No question available.
+</div>
