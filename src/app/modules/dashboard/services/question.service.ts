@@ -9,7 +9,7 @@ import { Observable } from 'rxjs';
 })
 export class QuestionService {
 
-  private baseUrl = 'http://localhost:8081/api';
+  private baseUrl = 'https://quiz-1-pwdb.onrender.com//api';
 
   constructor(private http: HttpClient) { }
 
