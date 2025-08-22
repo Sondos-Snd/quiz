@@ -1,14 +1,20 @@
 package com.interview.prep.controller;
 
+import com.interview.prep.model.Question;
+import com.interview.prep.service.QuestionService;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 @RestController
 @RequestMapping("/api/answers")
 @CrossOrigin(origins = "*") // Allow CORS if needed
 public class AnswerController {
-
+  @Autowired
+  private QuestionService questionService;
   /**
    * GET endpoint for checking answers via query parameters
    * URL: /api/answers/check?question=1&answer=Paris
@@ -69,6 +75,11 @@ public class AnswerController {
   /**
    * GET endpoint to list available endpoints
    */
+  @GetMapping("/hit")
+  public ResponseEntity<List<Question>> getAllQuestions() {
+    List<Question> questions = questionService.getAllQuestions();
+    return ResponseEntity.ok(questions);
+  }
   @GetMapping("/")
   public ResponseEntity<String> getEndpoints() {
     return ResponseEntity.ok(
