@@ -1,0 +1,23 @@
+package com.interview.prep.controller;
+
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RestController;
+
+@RestController
+public class TestController {
+    
+    @GetMapping("/")
+    public String home() {
+        return "Hello! Your Spring Boot app is running on Render! 🎉";
+    }
+    
+    @GetMapping("/health")
+    public String health() {
+        return "OK - Application is healthy";
+    }
+    
+    @GetMapping("/test")
+    public String test() {
+        return "Test endpoint working!";
+    }
+}
