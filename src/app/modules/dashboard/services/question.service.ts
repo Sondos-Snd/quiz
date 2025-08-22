@@ -1,19 +1,27 @@
 // src/app/services/question.service.ts
-@Injectable({ providedIn: 'root' })
+
+import { Injectable } from '@angular/core';
+import { HttpClient } from '@angular/common/http';
+import { Observable } from 'rxjs';
+
+@Injectable({
+  providedIn: 'root'
+})
 export class QuestionService {
-  private readonly baseUrl = 'https://quiz-1-pwdb.onrender.com/api'; // <- single slash
 
-  constructor(private http: HttpClient) {}
+  private baseUrl = 'https://quiz-1-pwdb.onrender.com/api';
 
-  getQuestions(topic: string) {
-    return this.http.get(`${this.baseUrl}/questions/${encodeURIComponent(topic)}`);
+  constructor(private http: HttpClient) { }
+
+  getQuestions(topic: string): Observable<any> {
+    return this.http.get(`${this.baseUrl}/questions/${topic}`);
   }
 
-  getAllQuestions() {
+  getAllQuestions(): Observable<any> {
     return this.http.get(`${this.baseUrl}/questions`);
   }
 
-  checkAnswer(answerRequest: any) {
+  checkAnswer(answerRequest: any): Observable<any> {
     return this.http.post(`${this.baseUrl}/answers/check`, answerRequest);
   }
 }
