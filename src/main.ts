@@ -6,19 +6,27 @@ import { AppComponent } from './app/app.component';
 import { AppRoutingModule } from './app/app-routing.module';
 import { BrowserModule, bootstrapApplication } from '@angular/platform-browser';
 import { provideAnimations } from '@angular/platform-browser/animations';
-import { provideHttpClient } from '@angular/common/http';
+import { HTTP_INTERCEPTORS, provideHttpClient, withInterceptors, withInterceptorsFromDi } from '@angular/common/http';
+import { initKeycloak } from './app/modules/auth/pages/keycloak-init';
+import { AuthInterceptor } from './app/modules/auth/auth.interceptor';
+
 
 if (environment.production) {
   enableProdMode();
-  //show this warning only on prod mode
-  if (window) {
-    selfXSSWarning();
-  }
 }
 
+(async () => {
+  await initKeycloak();
+  await bootstrapApplication(AppComponent);
+})();
+
+
 bootstrapApplication(AppComponent, {
-  providers: [provideHttpClient(),importProvidersFrom(BrowserModule, AppRoutingModule), provideAnimations()],
-}).catch((err) => console.error(err));
+  providers: [
+    provideHttpClient(withInterceptorsFromDi()),
+    { provide: HTTP_INTERCEPTORS, useClass: AuthInterceptor, multi: true },
+  ]
+});
 
 function selfXSSWarning() {
   setTimeout(() => {
@@ -31,4 +39,7 @@ function selfXSSWarning() {
       'font-weight:bold; font: 2em Arial; color: #e11d48;',
     );
   });
+
+
+
 }
