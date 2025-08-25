@@ -11,6 +11,8 @@ import com.interview.prep.dto.AnswerResponse;
 
 import java.util.List;
 
+import java.util.List;
+
 @RestController
 @RequestMapping("/api/answers")
 @CrossOrigin(origins = "*") // Allow CORS if needed
@@ -40,6 +42,7 @@ public class AnswerController {
     );
   }
 
+<<<<<<< HEAD
 
   @PostMapping("/check")
   public ResponseEntity<AnswerResponse> checkAnswerPost(
@@ -100,6 +103,42 @@ public class AnswerController {
 //    }
 //  }
 
+=======
+  /**
+   * POST endpoint for checking answers via JSON body
+   * Body: {"questionId": "1", "answer": "Paris"}
+   */
+  @PostMapping("/check")
+  public ResponseEntity<AnswerCheckResponse> checkAnswerPost(
+    @RequestBody(required = false) AnswerCheckRequest request) {
+
+    // Check if request body is null
+    if (request == null) {
+      return ResponseEntity.badRequest()
+        .body(new AnswerCheckResponse("Request body is required", false, "error"));
+    }
+
+    // Check if required fields are null or empty
+    if (request.getQuestionId() == null || request.getQuestionId().trim().isEmpty() ||
+      request.getAnswer() == null || request.getAnswer().trim().isEmpty()) {
+      return ResponseEntity.badRequest()
+        .body(new AnswerCheckResponse("Both questionId and answer are required", false, "error"));
+    }
+
+    try {
+      // Your answer checking logic here
+      boolean isCorrect = checkAnswer(request.getQuestionId(), request.getAnswer());
+
+      return ResponseEntity.ok(
+        new AnswerCheckResponse("Answer checked successfully", isCorrect, "success")
+      );
+    } catch (Exception e) {
+      return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
+        .body(new AnswerCheckResponse("Error processing request: " + e.getMessage(), false, "error"));
+    }
+  }
+
+>>>>>>> 28dfa83ec2be496379c1afe75047a195c51ee1b8
   /**
    * GET endpoint to list available endpoints
    */
