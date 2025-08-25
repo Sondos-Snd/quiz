@@ -2,7 +2,8 @@ import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { firstValueFrom } from 'rxjs';
 import { Observable, forkJoin, of } from 'rxjs';
-import { map, catchError } from 'rxjs/operators';
+import { environment } from 'src/environments/environment.prod';
+
 
 export interface QuestionPayload {
   topic: string;
@@ -20,7 +21,9 @@ interface CVUploadResponse {
   providedIn: 'root',
 })
 export class QuestionService {
-  private readonly apiUrl = 'http://localhost:8081/admin/questions/add';
+    // Upload CV and extract skills
+  private readonly baseUrl = environment.apiBaseUrl;
+  private readonly apiUrl = `${this.baseUrl}/admin/questions/add`;
 
   constructor(private http: HttpClient) {}
 
@@ -33,8 +36,7 @@ async addQuestion(question: QuestionPayload): Promise<{ id: string }> {
   }
 }
 
-  // Upload CV and extract skills
-   private baseUrl = 'http://localhost:8081/api';
+
   importCV(cvFile: File): Observable<CVUploadResponse> {
     const formData = new FormData();
     formData.append('cv', cvFile);
