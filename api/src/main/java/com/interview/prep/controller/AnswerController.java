@@ -11,8 +11,6 @@ import com.interview.prep.dto.AnswerResponse;
 
 import java.util.List;
 
-import java.util.List;
-
 @RestController
 @RequestMapping("/api/answers")
 @CrossOrigin(origins = "*") // Allow CORS if needed
@@ -42,30 +40,44 @@ public class AnswerController {
     );
   }
 
-
-
   @PostMapping("/check")
-  public ResponseEntity<AnswerResponse> checkAnswerPost(
-    @RequestBody(required = false) AnswerCheckRequest request) {
-
+  public ResponseEntity<?> checkAnswerPost(@RequestBody(required = false) AnswerCheckRequest request) {
     if (request == null ||
       request.getQuestionId() == null || request.getQuestionId().isBlank() ||
       request.getAnswer() == null || request.getAnswer().isBlank()) {
-      return ResponseEntity.badRequest().build();
+      // You can keep your previous 400 body if you want; here I just return 400 without a body
+      return ResponseEntity.badRequest().body(
+        new AnswerCheckResponse("Both questionId and answer are required", false, "error"));
+    }
+
+    // fetch the question so we can return the recommended answer
+    Question q = questionService.getQuestionById(request.getQuestionId());
+    if (q == null) {
+      return ResponseEntity.status(HttpStatus.NOT_FOUND)
+        .body(new AnswerCheckResponse("Question not found", false, "error"));
     }
 
     boolean isCorrect = checkAnswer(request.getQuestionId(), request.getAnswer());
 
-    // Get the reference (recommended) answer from your data
-    // Adjust these calls to match your model/service:
-    Question q = questionService.getQuestionById(request.getQuestionId()); // implement if you don’t have it
-    String recommended = (q != null && q.getCorrectAnswer() != null)
-      ? q.getCorrectAnswer()
-      : "No reference answer available";
+    // derive the recommended answer from your Question model
+    String recommended = extractRecommendedAnswer(q);
 
-    String skills = ""; // or compute something meaningful, or keep empty for now
+    // optional: compute a score and future skills (use whatever makes sense for you)
+    int score = isCorrect ? 1 : 0;
+    String futureSkills = ""; // or something real later
 
-    return ResponseEntity.ok(new AnswerResponse(isCorrect ? 1 : 0, recommended, skills));
+    // return the shape your Angular expects: { score, recommendedAnswer, futureSkills }
+    return ResponseEntity.ok(new AnswerResponse(score, recommended, futureSkills));
+  }
+
+  private String extractRecommendedAnswer(Question q) {
+    // Adjust these getters to your actual model field names:
+    // e.g., getCorrectAnswer(), getAnswer(), getExpectedAnswer(), getSolution()
+    if (q.getCorrectAnswer() != null && !q.getCorrectAnswer().isBlank()) return q.getCorrectAnswer();
+    if (q.getCorrectAnswer() != null && !q.getCorrectAnswer().isBlank())               return q.getCorrectAnswer();
+//    if (q.getExpectedAnswer() != null && !q.getExpectedAnswer().isBlank()) return q.getExpectedAnswer();
+    // fallback:
+    return "No reference answer available";
   }
 
   /**
