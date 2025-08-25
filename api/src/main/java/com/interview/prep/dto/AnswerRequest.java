@@ -6,5 +6,5 @@ import lombok.Data;
 @Data
 public class AnswerRequest {
     private String questionId;
-    private String userAnswer;
+    private String answer;
 }

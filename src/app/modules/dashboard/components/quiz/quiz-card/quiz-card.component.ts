@@ -16,7 +16,7 @@ export class QuizCardComponent {
   @Input() questionIndex!: number;
   @Input() totalQuestions!: number;
   @Input() result: any = null;
-  @Input() userAnswer: string = ''; // ✅ default value to prevent undefined
+  @Input() answer: string = ''; // ✅ default value to prevent undefined
 
   @Output() answerChanged = new EventEmitter<string>();
   @Output() submitClicked = new EventEmitter<void>();

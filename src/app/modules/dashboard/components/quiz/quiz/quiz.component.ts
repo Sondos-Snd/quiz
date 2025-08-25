@@ -18,7 +18,7 @@ export class QuizComponent implements OnInit {
   questions: any[] = [];
   currentQuestionIndex = 0;
   currentQuestion: any;
-  userAnswer = '';
+  answer = '';
   result: any;
 
   constructor(
@@ -64,11 +64,15 @@ loadQuestions() {
     }
     const answerRequest = {
       questionId: this.currentQuestion.id,
-      userAnswer: this.userAnswer
+      answer: this.answer
     };
 
     this.questionService.checkAnswer(answerRequest).subscribe({
       next: (res) => {
+        console.log("cheked answer");
+        
+        console.log(res);
+        
         this.result = res;
       },
       error: (err) => {
@@ -80,7 +84,7 @@ loadQuestions() {
 
   onNextQuestion() {
     this.result = null;
-    this.userAnswer = '';
+    this.answer = '';
     this.currentQuestionIndex++;
     if (this.currentQuestionIndex < this.questions.length) {
       this.currentQuestion = this.questions[this.currentQuestionIndex];
@@ -93,7 +97,7 @@ loadQuestions() {
     this.router.navigate(['/result']);
   }
 
-  onUserAnswerChange(val: string) {
-    this.userAnswer = val;
+  onAnswerChange(val: string) {
+    this.answer = val;
   }
 }

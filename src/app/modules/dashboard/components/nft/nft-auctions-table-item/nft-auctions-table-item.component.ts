@@ -6,7 +6,7 @@ import { Nft } from '../../../models/nft';
 @Component({
   selector: '[nft-auctions-table-item]',
   templateUrl: './nft-auctions-table-item.component.html',
-  imports: [AngularSvgIconModule, CurrencyPipe],
+  imports: [AngularSvgIconModule],
 })
 export class NftAuctionsTableItemComponent implements OnInit {
   @Input() auction = <Nft>{};
